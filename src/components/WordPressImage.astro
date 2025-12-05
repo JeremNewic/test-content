@@ -1,0 +1,30 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  class?: string;
+}
+
+const { src, alt, width, height, class: className } = Astro.props;
+
+// Fonction pour nettoyer l'URL de l'image WordPress
+const getImageUrl = (url: string) => {
+  if (!url) return '';
+  // Supprime les dimensions de l'URL (ex: -300x200)
+  return url.replace(/-\d+x\d+(?=\.[a-z]+$)/i, '');
+};
+---
+
+<Image
+  src={getImageUrl(src)}
+  alt={alt}
+  width={width}
+  height={height}
+  class={className}
+  loading="lazy"
+  format="webp"
+/>

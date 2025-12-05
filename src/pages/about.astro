@@ -1,0 +1,71 @@
+---
+import Layout from '../components/layout/Layout.astro';
+
+const SITE_NAME = import.meta.env.PUBLIC_SITE_NAME || 'Starterkit Blog';
+const SITE_DESCRIPTION = 'Un blog moderne propulsé par Astro et WordPress';
+
+const pageData = {
+  hero: {
+    title: `À propos de ${SITE_NAME}`,
+    description: SITE_DESCRIPTION,
+  },
+  sections: [
+    {
+      title: 'Notre Histoire',
+      content: `
+        <p>Notre blog a été créé pour partager des contenus de qualité avec notre communauté. 
+        Nous utilisons les dernières technologies pour offrir la meilleure expérience possible.</p>
+        <p>Propulsé par Astro et WordPress, notre plateforme combine performance et facilité de gestion.</p>
+      `,
+    },
+    {
+      title: 'Notre Mission',
+      content: `
+        <p>Notre mission est de créer un espace où le contenu de qualité rencontre la performance web.</p>
+        <p>Nous croyons en l'importance de sites web rapides, accessibles et agréables à utiliser.</p>
+      `,
+    }
+  ],
+}
+---
+
+<Layout 
+  title={`À propos - ${SITE_NAME}`}
+  description="Découvrez notre histoire et notre mission"
+>
+  <!-- Hero Section -->
+  <section class="relative py-20 bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-5xl font-bold mb-6 text-gray-900">{pageData.hero.title}</h1>
+        <p class="text-xl text-gray-700">{pageData.hero.description}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content Sections -->
+  {pageData.sections.map((section, index) => (
+    <section class={`py-16 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold mb-6 text-gray-900">{section.title}</h2>
+          <div class="prose prose-lg max-w-none text-gray-700" set:html={section.content} />
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- CTA Section -->
+  <section class="py-16 bg-blue-600 text-white">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-6">Prêt à découvrir nos articles ?</h2>
+      <p class="text-xl mb-8 text-blue-100">Explorez notre collection d'articles et restez informé.</p>
+      <a 
+        href="/blog" 
+        class="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
+      >
+        Voir tous les articles
+      </a>
+    </div>
+  </section>
+</Layout>

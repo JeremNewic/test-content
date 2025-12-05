@@ -1,0 +1,32 @@
+---
+
+import Layout from '../../components/layout/Layout.astro';
+import { getAllPosts, getPostBySlug } from '../../lib/wordpress';
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts(); // Récupère tous les articles
+  return posts.map(post => ({
+    params: { slug: post.slug }, // Définit les slugs pour les routes dynamiques
+  }));
+}
+
+const { slug } = Astro.params; // Récupère le slug depuis l'URL
+const post = await getPostBySlug(slug); // Récupère l'article correspondant au slug
+
+if (!post) {
+  throw new Error(`Article non trouvé pour le slug : ${slug}`);
+}
+---
+
+<Layout title={post.title} description={post.excerpt}>
+  <article class="container mx-auto px-4 py-16">
+    <h1 class="text-4xl font-bold mb-4">{post.title}</h1>
+    <div class="text-gray-600 mb-4">{post.date}</div>
+    <img
+      src={post.featuredImage}
+      alt={post.title}
+      class="w-full h-auto mb-8"
+    />
+    <div class="prose" set:html={post.content}></div>
+  </article>
+</Layout>

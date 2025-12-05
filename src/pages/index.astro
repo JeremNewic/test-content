@@ -1,0 +1,302 @@
+---
+import Layout from '../components/layout/Layout.astro';
+import FeaturedArticle from '../components/FeaturedArticle.astro';
+import PostCard from '../components/PostCard.astro';
+import { getAllPosts } from '../lib/wordpress';
+
+const SITE_NAME = import.meta.env.PUBLIC_SITE_NAME || 'Starterkit Blog';
+
+// Récupération des articles
+const posts = await getAllPosts(7);
+const featuredPost = posts[0];
+const highlightedPosts = posts.slice(1, 4); // 3 articles mis en avant
+const recentPosts = posts.slice(4); // Articles récents
+---
+
+<Layout 
+  title="Accueil" 
+  description="Découvrez nos derniers articles et actualités"
+>
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700">
+    <div class="absolute inset-0 bg-grid-white/[0.05] bg-[size:32px_32px]"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/20"></div>
+    
+    <div class="relative container mx-auto px-4 py-24 md:py-32">
+      <div class="max-w-4xl mx-auto text-center text-white">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full mb-6 border border-white/20">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+          </span>
+          <span class="text-sm font-medium">Nouveau contenu chaque semaine</span>
+        </div>
+        
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+          Démarre ton projet web <br />
+          <span class="bg-gradient-to-r from-yellow-200 to-yellow-400 bg-clip-text text-transparent">
+            {SITE_NAME}
+          </span>
+        </h1>
+        
+        <p class="text-xl md:text-2xl mb-10 text-blue-100 max-w-2xl mx-auto">
+          Découvrez des articles captivants, des analyses approfondies et des actualités qui façonnent demain.
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <a 
+            href="/blog" 
+            class="group inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition-all hover:scale-105 shadow-xl"
+          >
+            Explorer les articles
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          <a 
+            href="/about" 
+            class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/20 transition-all border border-white/20"
+          >
+            À propos
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Decorative elements -->
+    <div class="absolute top-20 left-10 w-72 h-72 bg-yellow-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+    <div class="absolute top-40 right-10 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+    <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+  </section>
+
+  <!-- Featured Article -->
+  {featuredPost && (
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="flex items-center gap-3 mb-10">
+          <div class="h-1 w-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
+          <h2 class="text-3xl font-bold text-gray-900">Article à la une</h2>
+        </div>
+        <FeaturedArticle article={featuredPost} />
+      </div>
+    </section>
+  )}
+
+  <!-- Highlighted Posts Grid -->
+  {highlightedPosts.length > 0 && (
+    <section class="py-20 bg-gradient-to-b from-gray-50 to-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-4xl font-bold text-gray-900 mb-4">Articles recommandés</h2>
+          <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+            Une sélection de contenus soigneusement choisis pour vous
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {highlightedPosts.map((post) => (
+            <PostCard post={post} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Stats Section -->
+  <section class="py-20 bg-gray-900 text-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-grid-white/[0.05] bg-[size:32px_32px]"></div>
+    <div class="relative container mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div class="space-y-2">
+          <div class="text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            500+
+          </div>
+          <div class="text-gray-400 font-medium">Articles publiés</div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-5xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            50K+
+          </div>
+          <div class="text-gray-400 font-medium">Lecteurs mensuels</div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-5xl font-bold bg-gradient-to-r from-pink-400 to-yellow-400 bg-clip-text text-transparent">
+            20+
+          </div>
+          <div class="text-gray-400 font-medium">Catégories</div>
+        </div>
+        <div class="space-y-2">
+          <div class="text-5xl font-bold bg-gradient-to-r from-yellow-400 to-blue-400 bg-clip-text text-transparent">
+            100%
+          </div>
+          <div class="text-gray-400 font-medium">Gratuit</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Posts -->
+  {recentPosts.length > 0 && (
+    <section class="py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between mb-10">
+          <div class="flex items-center gap-3">
+            <div class="h-1 w-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"></div>
+            <h2 class="text-3xl font-bold text-gray-900">Dernières publications</h2>
+          </div>
+          <a 
+            href="/blog" 
+            class="hidden md:inline-flex items-center gap-2 text-blue-600 font-semibold hover:gap-3 transition-all group"
+          >
+            Voir tout
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {recentPosts.map((post) => (
+            <PostCard post={post} />
+          ))}
+        </div>
+
+        <div class="text-center mt-10 md:hidden">
+          <a 
+            href="/blog" 
+            class="inline-flex items-center gap-2 text-blue-600 font-semibold"
+          >
+            Voir tous les articles
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Newsletter CTA -->
+  <section class="py-20 bg-gradient-to-br from-blue-600 to-purple-700 relative overflow-hidden">
+    <div class="absolute inset-0 bg-grid-white/[0.05] bg-[size:32px_32px]"></div>
+    <div class="relative container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center text-white">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full mb-6 border border-white/20">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+          </svg>
+          <span class="text-sm font-medium">Newsletter</span>
+        </div>
+        
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">
+          Restez informé·e
+        </h2>
+        <p class="text-xl mb-10 text-blue-100">
+          Recevez nos meilleurs articles directement dans votre boîte mail. Pas de spam, que du contenu de qualité.
+        </p>
+        
+        <form class="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
+          <input 
+            type="email" 
+            placeholder="votre@email.com"
+            class="flex-1 px-6 py-4 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            required
+          />
+          <button 
+            type="submit"
+            class="bg-yellow-400 text-gray-900 px-8 py-4 rounded-xl font-semibold hover:bg-yellow-300 transition-all hover:scale-105 shadow-xl whitespace-nowrap"
+          >
+            S'abonner
+          </button>
+        </form>
+        
+        <p class="text-sm text-blue-200 mt-4">
+          Désinscription possible à tout moment. Consultez notre <a href="/about" class="underline hover:text-white">politique de confidentialité</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">Pourquoi nous lire ?</h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Des contenus qui font la différence
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
+          <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Rapide & Performant</h3>
+          <p class="text-gray-600">
+            Une expérience de lecture optimale avec des temps de chargement ultra-rapides grâce à Astro.
+          </p>
+        </div>
+
+        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
+          <div class="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Contenu de Qualité</h3>
+          <p class="text-gray-600">
+            Des articles soigneusement rédigés et vérifiés par notre équipe d'experts passionnés.
+          </p>
+        </div>
+
+        <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
+          <div class="w-14 h-14 bg-gradient-to-br from-pink-500 to-yellow-600 rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Toujours à Jour</h3>
+          <p class="text-gray-600">
+            De nouvelles publications régulières pour rester informé des dernières tendances et actualités.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  @keyframes blob {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(30px, -50px) scale(1.1);
+    }
+    66% {
+      transform: translate(-20px, 20px) scale(0.9);
+    }
+  }
+
+  .animate-blob {
+    animation: blob 7s infinite;
+  }
+
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
+  .bg-grid-white\/\[0\.05\] {
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  }
+</style>

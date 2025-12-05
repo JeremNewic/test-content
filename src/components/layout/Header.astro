@@ -1,0 +1,93 @@
+---
+// src/components/layout/Header.astro
+import { SITE_NAME, NAV_LINKS } from '@/lib/constants'
+
+const currentPath = Astro.url.pathname
+---
+
+<header class="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+  <nav class="container mx-auto px-4 py-4" aria-label="Navigation principale">
+    <div class="flex items-center justify-between">
+      
+      <!-- Logo -->
+      <a 
+        href="/" 
+        class="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors"
+        aria-label="Retour à l'accueil"
+      >
+        {SITE_NAME}
+      </a>
+      
+      <!-- Navigation Desktop -->
+      <ul class="hidden md:flex items-center gap-6">
+        {NAV_LINKS.map(link => (
+          <li>
+            <a 
+              href={link.href}
+              class={`font-medium transition-colors ${
+                currentPath === link.href
+                  ? 'text-blue-600 border-b-2 border-blue-600 pb-1'
+                  : 'text-gray-600 hover:text-blue-600'
+              }`}
+              aria-current={currentPath === link.href ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      
+      <!-- Mobile Menu Button -->
+      <button 
+        class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+        id="mobile-menu-button"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      
+    </div>
+    
+    <!-- Mobile Menu (hidden by default) -->
+    <div 
+      class="hidden md:hidden mt-4 pb-4"
+      id="mobile-menu"
+      role="navigation"
+      aria-label="Navigation mobile"
+    >
+      <ul class="space-y-2">
+        {NAV_LINKS.map(link => (
+          <li>
+            <a 
+              href={link.href}
+              class={`block px-4 py-2 rounded-lg transition-colors ${
+                currentPath === link.href
+                  ? 'bg-blue-50 text-blue-600 font-medium'
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+              aria-current={currentPath === link.href ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<script>
+  // Toggle mobile menu
+  const button = document.getElementById('mobile-menu-button')
+  const menu = document.getElementById('mobile-menu')
+  
+  button?.addEventListener('click', () => {
+    const isExpanded = button.getAttribute('aria-expanded') === 'true'
+    
+    button.setAttribute('aria-expanded', String(!isExpanded))
+    menu?.classList.toggle('hidden')
+  })
+</script>

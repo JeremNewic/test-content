@@ -1,0 +1,32 @@
+---
+import Layout from '../components/layout/Layout.astro';
+---
+
+<Layout 
+  title="Page non trouvée" 
+  description="La page que vous recherchez n'existe pas ou a été déplacée."
+>
+  <div class="container mx-auto px-4 py-24 text-center">
+    <div class="max-w-2xl mx-auto">
+      <h1 class="text-6xl font-bold mb-4 text-gray-900">404</h1>
+      <h2 class="text-3xl font-semibold mb-6 text-gray-700">Page non trouvée</h2>
+      <p class="text-lg text-gray-600 mb-8">
+        Désolé, la page que vous recherchez n'existe pas ou a été déplacée.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a 
+          href="/" 
+          class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg transition-colors"
+        >
+          Retour à l'accueil
+        </a>
+        <a 
+          href="/blog/listing" 
+          class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium px-6 py-3 rounded-lg transition-colors"
+        >
+          Voir tous les articles
+        </a>
+      </div>
+    </div>
+  </div>
+</Layout>

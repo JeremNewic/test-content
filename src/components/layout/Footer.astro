@@ -1,0 +1,65 @@
+---
+import { SITE_NAME, FOOTER_LINKS, SOCIAL_LINKS } from '@/lib/constants'
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-gray-900 text-gray-300 border-t border-gray-800">
+  <div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      
+      <!-- Colonne 1 : Logo et description -->
+      <div>
+        <h2 class="text-xl font-bold text-white">{SITE_NAME}</h2>
+        <p class="mt-2 text-sm">
+          Un blog moderne construit avec Astro et WordPress. Performant, SEO-friendly et facile à utiliser.
+        </p>
+      </div>
+      
+      <!-- Colonne 2 : Liens de navigation -->
+      <div>
+        <h3 class="text-lg font-bold text-white">Navigation</h3>
+        <ul class="mt-4 space-y-2">
+          {FOOTER_LINKS.map(link => (
+            <li>
+              <a 
+                href={link.href} 
+                class="hover:text-white transition-colors"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      <!-- Colonne 3 : Réseaux sociaux -->
+      <div>
+        <h3 class="text-lg font-bold text-white">Suivez-nous</h3>
+        <ul class="mt-4 flex space-x-4">
+          {SOCIAL_LINKS.map(social => (
+            <li>
+              <a 
+                href={social.href} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="hover:text-white transition-colors"
+              >
+                <span class="sr-only">{social.label}</span>
+                <svg class="w-6 h-6 fill-current" aria-hidden="true">
+                  <use href={`/icons.svg#${social.icon}`} />
+                </svg>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+    </div>
+    
+    <!-- Copyright -->
+    <div class="mt-8 text-center text-sm text-gray-500">
+      &copy; {year} {SITE_NAME}. Tous droits réservés.
+    </div>
+  </div>
+</footer>

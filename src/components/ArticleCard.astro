@@ -1,0 +1,45 @@
+---
+
+interface Props {
+  article: {
+    id?: number;
+    title: string;
+    excerpt: string;
+    date: string;
+    readingTime: string;
+    category?: string;
+    featuredImage?: string;
+    imageWidth?: number;
+    imageHeight?: number;
+    slug: string;
+  };
+}
+
+const { article } = Astro.props;
+---
+
+<article class="bg-white rounded-lg shadow-md overflow-hidden">
+  {article.featuredImage && (
+    <img 
+      src={article.featuredImage} 
+      alt={article.title} 
+      class="w-full h-48 object-cover"
+      loading="lazy"
+    />
+  )}
+  <div class="p-6">
+    <div class="text-sm text-gray-500 mb-2">
+      <span>{article.date}</span> • <span>{article.readingTime}</span>
+      {article.category && <span> • <span class="text-red-500">{article.category}</span></span>}
+    </div>
+    <h2 class="text-xl font-bold mb-2">
+      <a href={`/blog/${article.slug}`} class="text-gray-900 hover:text-blue-600">
+        {article.title}
+      </a>
+    </h2>
+    <div class="text-gray-600 mb-4" set:html={article.excerpt} />
+    <a href={`/blog/${article.slug}`} class="text-blue-600 font-bold hover:underline">
+      Lire plus →
+    </a>
+  </div>
+</article>
