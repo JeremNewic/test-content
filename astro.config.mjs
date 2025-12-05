@@ -26,8 +26,11 @@ export default defineConfig({
   ],
   image: {
     // Permet d'optimiser les images depuis WordPress
-    domains: ['starterkit-blog.local'], 
+    domains: ['test-content.local', 'starterkit-blog.local'], 
     remotePatterns: [{
+      protocol: 'http',
+      hostname: 'test-content.local',
+    }, {
       protocol: 'http',
       hostname: 'starterkit-blog.local',
     }],

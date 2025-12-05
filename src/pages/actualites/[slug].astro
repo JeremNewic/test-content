@@ -1,0 +1,44 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import { getAllActualites, getActualiteBySlug } from '../../lib/wordpress';
+
+export async function getStaticPaths() {
+  const actualites = await getAllActualites(100);
+  return actualites.map(actualite => ({
+    params: { slug: actualite.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const actualite = await getActualiteBySlug(slug);
+
+if (!actualite) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout title={actualite.title} description={actualite.excerpt}>
+  <article class="container mx-auto px-4 py-16">
+    <h1 class="text-4xl font-bold mb-4">{actualite.title}</h1>
+    <div class="text-gray-600 mb-4">
+      <span>{actualite.date}</span>
+      {actualite.author && <span class="ml-4">Par {actualite.author}</span>}
+    </div>
+    {actualite.featuredImage && (
+      <img
+        src={actualite.featuredImage}
+        alt={actualite.title}
+        class="w-full h-auto mb-6"
+      />
+    )}
+    <div class="prose max-w-none" set:html={actualite.content}></div>
+    
+    {/* Afficher les champs ACF supplémentaires si nécessaire */}
+    {actualite.acf && Object.keys(actualite.acf).length > 0 && (
+      <div class="mt-8 p-4 bg-gray-100 rounded">
+        <h2 class="text-xl font-bold mb-4">Champs ACF disponibles</h2>
+        <pre class="text-xs overflow-auto">{JSON.stringify(actualite.acf, null, 2)}</pre>
+      </div>
+    )}
+  </article>
+</Layout>

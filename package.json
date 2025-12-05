@@ -6,11 +6,23 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "export:actualites": "node scripts/export-actualites.js",
+    "import:actualites": "node scripts/import-actualites.js",
+    "clean:imported": "node scripts/clean-imported-posts.js",
+    "clean:all": "node scripts/clean-imported-posts.js --all",
+    "test:connection": "node scripts/test-connection.js",
+    "test:auth": "node scripts/test-auth.js",
+    "check:acf": "node scripts/check-acf-fields.js",
+    "test:extraction": "node scripts/test-content-extraction.js",
+    "test:single": "node scripts/test-single-extraction.js",
+    "export:db": "node scripts/export-via-db.js",
+    "test:db": "node scripts/test-db-connection.js"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",
     "astro": "^5.14.5",
+    "mysql2": "^3.15.3",
     "sass": "^1.93.2",
     "sharp": "^0.34.4"
   },

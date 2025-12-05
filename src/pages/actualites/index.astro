@@ -1,0 +1,36 @@
+---
+import Layout from '../../components/layout/Layout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { getAllActualites } from '../../lib/wordpress';
+
+const actualites = await getAllActualites(100);
+---
+
+<Layout title="Actualités">
+  <div class="container mx-auto px-4 py-16">
+    <h1 class="text-4xl font-bold mb-8">Toutes les actualités</h1>
+    
+    {actualites.length === 0 ? (
+      <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4">
+        <p class="font-bold">Aucune actualité trouvée</p>
+        <p class="text-sm mt-2">
+          Vérifiez que :
+          <ul class="list-disc list-inside mt-2">
+            <li>L'URL WordPress est correcte dans votre fichier .env (PUBLIC_WP_API_URL)</li>
+            <li>Le plugin "ACF to REST API" est installé et activé sur WordPress</li>
+            <li>Les champs ACF sont bien configurés pour être exposés dans l'API REST</li>
+          </ul>
+        </p>
+      </div>
+    ) : (
+      <>
+        <p class="text-gray-600 mb-8">Nombre d'actualités trouvées : {actualites.length}</p>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {actualites.map((actualite) => (
+            <ArticleCard article={actualite} />
+          ))}
+        </div>
+      </>
+    )}
+  </div>
+</Layout>

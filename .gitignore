@@ -31,5 +31,8 @@ lerna-debug.log*
 .cache/
 .temp/
 
+# exports
+exports/
+
 # backlog files
 BACKLOG.md
